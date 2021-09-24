@@ -40,10 +40,11 @@ nextISSTimesForMyLocation((error, passTimes) => {
     let dateString = new Date(item.risetime).toLocaleDateString("en-US");
     let dateDayMonthYear = dateString.split("/");
     let isoDate = dateDayMonthYear[2] + "-" + dateDayMonthYear[0] + "-" + dateDayMonthYear[1];
-    console.log(new Date(isoDate));
+    console.log(isoDate);
+   // let week = isoDate.getDay();
     let timeStamp = new Date(item.risetime).toLocaleTimeString("en-US");
 
-    console.log(`Next pass at ${dateString} ${month[Number(dateDayMonthYear[0]) - 1]} ${dateDayMonthYear[1]} ${dateDayMonthYear[2]} ${timeStamp} GMT-0700 (Pacific Daylight Time) for ${passTimes.duration} seconds`);
+    console.log(`Next pass at ${month[Number(dateDayMonthYear[0]) - 1]} ${dateDayMonthYear[1]} ${dateDayMonthYear[2]} ${timeStamp} GMT-0700 (Pacific Daylight Time) for ${passTimes.duration} seconds`);
   }
   console.log(passTimes.risetime, passTimes.duration);
 });
