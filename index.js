@@ -1,53 +1,49 @@
-// index.js
 const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes, nextISSTimesForMyLocation } = require('./iss');
 
-fetchMyIP((error, ip) => {
-  if (error) {
-    console.log("It didn't work!" , error);
-    return;
-  }
-  // console.log("ip data type", typeof ip);
-  console.log('It worked! Returned IP:' , ip);
-});
+/* fetchMyIP((error, ip) => {
 
-fetchCoordsByIP("142.114.141.28", (error, coordinate) => {
   if (error) {
-    console.log("It didn't work!" , error);
+    console.log("It didn't work!", error);
     return;
   }
 
-  console.log('It worked! Returned coordinate:' , coordinate);
-
+  console.log('It worked! Returned IP: ', ip);
 });
 
-fetchISSFlyOverTimes({ latitude: '49.27670', longitude: '-123.13000' }, (error, data) => {
+fetchCoordsByIP('142.114.141.28', (error, coordinate) => {
   if (error) {
-    console.log("It didn't work!" , error);
+    console.log("It didn't work!", error);
     return;
   }
 
-  console.log('It worked! Returned observation time:' , data);
+  console.log('It worked! Returned coordinate: ', coordinate);
+
 
 });
 
-nextISSTimesForMyLocation((error, passTimes) => {
+fetchISSFlyOverTimes({ latitude: 45.2496, longitude: -75.9181 },(error, data) => {
   if (error) {
-    return console.log("It didn't work!", error);
+    console.log("It didn't work!", error);
+    return;
   }
-  // success, print out the deets!
-  let month = ["Jan", "Feb", "Mar", "Apr", 'May', 'Jun', 'Jul', "Aug", "Sept", "Oct", "Nov", "Dec"];
-  for (let item of passTimes) {
-    let dateString = new Date(item.risetime).toLocaleDateString("en-US");
-    let dateDayMonthYear = dateString.split("/");
-    let isoDate = dateDayMonthYear[2] + "-" + dateDayMonthYear[0] + "-" + dateDayMonthYear[1];
-    console.log(isoDate);
-   // let week = isoDate.getDay();
-    let timeStamp = new Date(item.risetime).toLocaleTimeString("en-US");
 
-    console.log(`Next pass at ${month[Number(dateDayMonthYear[0]) - 1]} ${dateDayMonthYear[1]} ${dateDayMonthYear[2]} ${timeStamp} GMT-0700 (Pacific Daylight Time) for ${passTimes.duration} seconds`);
-  }
-  console.log(passTimes.risetime, passTimes.duration);
+  console.log('It worked! flyover times: ', data.response);
+
+
 });
+ */
+nextISSTimesForMyLocation((error, data) => {
+  if (error) {
+    console.log("It didn't work!", error);
+    return;
+  }
+  
+  for (const ele of data.response) {
+    const timeStamp = ele.risetime;
+    const currTime = new Date(Number(timeStamp) * 1000);
+    
+    console.log(`Next pass at ${currTime.toUTCString()}-0700 (Estern Daylight Time) for ${ele.duration} seconds!`);
+  }
 
- 
-
+  //console.log('nextISSTimesForMyLocation: ', data.response);
+});
